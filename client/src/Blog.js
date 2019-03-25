@@ -1,39 +1,45 @@
 import React from 'react';
 import { connect, } from 'react-redux';
 import PostForm from './PostForm';
-import { Header } from 'semantic-ui-react';
+import { Header, Button } from 'semantic-ui-react';
+import UpdateBlogForm from './UpdateBlogForm';
 
-class  Blog extends React.Component {
-  state = {blog: ""}
+class Blog extends React.Component {
+  state = {blog: "", showForm: false }
+
+  toggleForm = () => {
+    this.setState({showForm: !this.state.showForm})
+  }
 
  
   
   render () {
     return (
+      
    
-      <div>
-         <PostForm blog_id={this.props.match.params.id}/>
-        { this.props.blogs.map( b => 
-        { if (b.id == this.props.match.params.id) 
-          return (
-          <div>
-            {b.posts.map ( p =>
+        <div>
+          
               <div>
-                {p.body}
-              </div>)}
-          </div>)
-              return
-             }
-          )}
-         </div>
-          )
-        }
-      }
+                <Header>
+                  Hey
+                  <br />
+                  <Button onClick={() => this.toggleForm()}>Edit</Button>
+                </Header>
+                {this.state.showForm ? <UpdateBlogForm /> : "" }
+              </div>
+              
+            
+       
+        </div>
+    )
+    }
+  }
       
 
 
-const mapStateToProps = (state) => {
-  return { blogs: state.blogs};
+const mapStateToProps = (state, props) => {
+  return { blogs: state.blogs.find( b => b.id === parseInt(props.match.params.id))}
 };
+
 
 export default connect(mapStateToProps)(Blog)

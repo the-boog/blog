@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import BlogList from './BlogList'
-import BlogForm from './BlogForm'
+
 import { Route, Switch } from 'react-router-dom';
 import Blog from './Blog';
+import NoMatch from './NoMatch';
 
 
 
@@ -13,6 +14,7 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={BlogList} />
           <Route exact path="/blogs/:id" component ={Blog} />
+          <Route component ={NoMatch} />
         </Switch>
       </div>
     );

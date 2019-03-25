@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect, } from 'react-redux';
-import { addBlog, } from './reducers/blogs'
+import { updateBlog } from './reducers/blogs'
 
-class BlogForm extends React.Component {
-  state = { name: '', };
+class UpdateBlogForm extends React.Component {
+  state = {name: ''};
+
+ 
 
   handleSubmit = (e) => {
     e.preventDefault();
     const {dispatch, } = this.props;
-    const { name, } = this.state;
-    const blog = { name }
-    dispatch(addBlog(blog))
-    this.setState({ name: '', });
+    const { name, id } = this.state;
+    const blog = { name, id }
+    dispatch(updateBlog(blog))
+   
   }
 
 
@@ -23,7 +25,7 @@ class BlogForm extends React.Component {
 
     return (
       <div>
-        <h3>Add A Blog</h3>
+        <h3>Edit This Blog</h3>
         <form onSubmit={this.handleSubmit}>
           <input value={this.state.name} onChange={this.handleChange} />
         </form>
@@ -35,4 +37,4 @@ class BlogForm extends React.Component {
 
 
 
-export default connect()(BlogForm);
+export default connect()(UpdateBlogForm);

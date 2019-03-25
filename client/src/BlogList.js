@@ -3,18 +3,33 @@ import { connect, } from 'react-redux';
 import BlogForm from './BlogForm'
 import { Link } from 'react-router-dom'
 import { Header, Button } from 'semantic-ui-react'
+import { getBlogs, deleteBlog, updateBlog } from './reducers/blogs';
+
 
 class BlogList extends React.Component {
+  state = {showForm: false, updateForm: false,}
 
-  deleteBlog = (id) => {
-    this.props.dispatch({ type: 'DELETE_BLOG', id });
-  }
+    componentDidMount() {
+      this.props.dispatch(getBlogs())
+    }
+
+    toggleForm = () => {
+      this.setState({showForm: !this.state.showForm})
+    }
+
+
+ updateButton = (id) => {
+   this.props.dispatch(updateBlog(id))
+ }
+
+
 
   render () {
     return (
    
       <div>
-         <BlogForm />
+        <Button onClick={() => this.toggleForm()}>Add Blog</Button>
+         {this.state.showForm ? <BlogForm /> : ''}
         { this.props.blogs.map( b => {
           return (
             <div  key={b.id}>
@@ -22,7 +37,8 @@ class BlogList extends React.Component {
                 {b.name}
                 <br />
               </Header>
-              <Button onClick={() => this.deleteBlog(b.id)}>Delete</Button>
+              <Button onClick={() => this.props.dispatch(deleteBlog(b.id))}>Delete</Button>
+              <Button onClick={() => this.toggleForm(b.id)}>Change Blog Name</Button>
             </div>
           )
         })
